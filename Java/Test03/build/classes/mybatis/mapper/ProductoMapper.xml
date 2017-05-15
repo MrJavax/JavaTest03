@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.mapper.ProductoMapper">
+	<select id="buscarProducto" resultType="model.Producto" parameterType="int">
+		SELECT cod_pro as
+		codigo,
+		nom_pro as nombre,
+		pre_pro as
+		precio,
+		stk_pro as stock,
+		cat_pro as categoria,
+		fec_reg_pro as fecha
+		FROM
+		tb_producto
+		WHERE cod_pro = #{codigo}
+	</select>
+	<select id="listarCategorias" resultType="model.Producto">
+		SELECT DISTINCT cat_pro
+		as categoria
+		FROM tb_producto
+	</select>
+	<insert id="registrarProducto" parameterType="model.Producto">
+		INSERT INTO
+		tb_producto VALUES (null, #{nombre}, #{precio}, #{stock},
+		#{categoria},
+		#{fecha})
+	</insert>
+	<select id="listarProductos" resultType="model.Producto">
+		SELECT cod_pro as
+		codigo,
+		nom_pro as nombre,
+		pre_pro as precio,
+		stk_pro as stock,
+		cat_pro as
+		categoria,
+		fec_reg_pro as fecha
+		FROM tb_producto
+	</select>
+	<select id="autoCompletar" resultType="model.Producto" parameterType="String">
+		SELECT  cod_pro as
+		codigo,
+		nom_pro as nombre,
+		pre_pro as precio,
+		stk_pro as stock,
+		cat_pro as
+		categoria,
+		fec_reg_pro as fecha
+		FROM tb_producto
+		WHERE nom_pro LIKE #{nombre}
+	</select>
+	<select id="filtrarPorCategoria" resultType="model.Producto" parameterType="String">
+		SELECT  cod_pro as
+		codigo,
+		nom_pro as nombre,
+		pre_pro as precio,
+		stk_pro as stock,
+		cat_pro as
+		categoria,
+		fec_reg_pro as fecha
+		FROM tb_producto
+		WHERE cat_pro = #{categoria}
+	</select>
+	<delete id="eliminarProducto" parameterType="int">
+		DELETE FROM
+		tb_producto
+		WHERE cod_pro = #{codigo}
+	</delete>
+	<update id="modificarProducto" parameterType="model.Producto">
+		UPDATE tb_producto
+		SET nom_pro = #{nombre},
+		pre_pro = #{precio},
+		stk_pro = #{stock},
+		cat_pro = #{categoria},
+		fec_reg_pro = #{fecha}
+		WHERE cod_pro = #{codigo}
+	</update>
+</mapper>
